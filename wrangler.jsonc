@@ -1,13 +1,12 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "bjprinting1",
+  "name": "bj-printing1",
   "compatibility_date": "2026-06-04",
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "main": ".output/server/index.mjs",
+  "main": "dist/server/server.js",
   "assets": {
-    "directory": ".output/public",
-    "binding": "ASSETS"
+    "directory": "dist/client"
   }
 }
