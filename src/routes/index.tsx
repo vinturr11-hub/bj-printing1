@@ -634,7 +634,7 @@ function Contact() {
               icon={Mail}
               label="Email"
               value={EMAIL}
-              href={`mailto:${EMAIL}`}
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`}
             />
             <ContactCard
               icon={MapPin}
@@ -682,7 +682,7 @@ function Contact() {
               </div>
               <h3 className="font-display font-bold text-2xl text-ink">Quote request sent!</h3>
               <p className="text-muted-foreground max-w-md">
-                Thanks for reaching out — we've opened your email app to deliver your request to{" "}
+                Thanks for reaching out — your request has been delivered to{" "}
                 <span className="font-semibold text-ink">{EMAIL}</span>. We'll respond within
                 business hours.
               </p>
@@ -696,20 +696,30 @@ function Contact() {
             </div>
           ) : (
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              const fd = new FormData(e.currentTarget as HTMLFormElement);
-              const subject = encodeURIComponent(`Quote request from ${fd.get("name")}`);
-              const body = encodeURIComponent(
-                `Name: ${fd.get("name")}\nPhone: ${fd.get("phone")}\nEmail: ${fd.get(
-                  "email",
-                )}\nService: ${fd.get("service")}\n\n${fd.get("message")}`,
-              );
-              window.open(`mailto:${EMAIL}?subject=${subject}&body=${body}`, "_blank");
-              setSent(true);
+              if (submitting) return;
+              setSubmitting(true);
+              try {
+                const fd = new FormData(e.currentTarget as HTMLFormElement);
+                const res = await fetch("https://api.web3forms.com/submit", {
+                  method: "POST",
+                  body: fd,
+                });
+                if (res.ok) {
+                  setSent(true);
+                }
+              } catch {
+                // swallow; user can retry
+              } finally {
+                setSubmitting(false);
+              }
             }}
             className="lg:col-span-3 rounded-xl bg-white border border-border p-7 sm:p-9 shadow-soft space-y-5"
           >
+            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+            <input type="hidden" name="subject" value="New quote request — BJ Printing" />
+            <input type="hidden" name="from_name" value="BJ Printing Website" />
             <div className="grid sm:grid-cols-2 gap-5">
               <Field name="name" label="Your name" required />
               <Field name="phone" label="Phone" type="tel" required />
@@ -747,9 +757,10 @@ function Contact() {
             </div>
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-brand text-brand-foreground px-7 py-4 font-semibold shadow-glow hover:bg-brand-deep transition"
+              disabled={submitting}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-brand text-brand-foreground px-7 py-4 font-semibold shadow-glow hover:bg-brand-deep transition disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Send Quote Request
+              {submitting ? "Sending…" : "Send Quote Request"}
               <Send className="w-4 h-4" />
             </button>
             <p className="text-xs text-muted-foreground text-center">
