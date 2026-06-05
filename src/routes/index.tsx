@@ -675,6 +675,26 @@ function Contact() {
               />
             </div>
           </div>
+          {sent ? (
+            <div className="lg:col-span-3 rounded-xl bg-white border border-border p-7 sm:p-9 shadow-soft flex flex-col items-center justify-center text-center space-y-4 min-h-[420px]">
+              <div className="grid place-items-center w-14 h-14 rounded-full bg-brand/10 text-brand">
+                <Check className="w-7 h-7" />
+              </div>
+              <h3 className="font-display font-bold text-2xl text-ink">Quote request sent!</h3>
+              <p className="text-muted-foreground max-w-md">
+                Thanks for reaching out — we've opened your email app to deliver your request to{" "}
+                <span className="font-semibold text-ink">{EMAIL}</span>. We'll respond within
+                business hours.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSent(false)}
+                className="mt-2 inline-flex items-center gap-2 rounded-md border border-border bg-white px-5 py-2.5 text-sm font-semibold text-ink hover:border-ink transition"
+              >
+                Send another request
+              </button>
+            </div>
+          ) : (
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -685,7 +705,7 @@ function Contact() {
                   "email",
                 )}\nService: ${fd.get("service")}\n\n${fd.get("message")}`,
               );
-              window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+              window.open(`mailto:${EMAIL}?subject=${subject}&body=${body}`, "_blank");
               setSent(true);
             }}
             className="lg:col-span-3 rounded-xl bg-white border border-border p-7 sm:p-9 shadow-soft space-y-5"
@@ -729,7 +749,7 @@ function Contact() {
               type="submit"
               className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-brand text-brand-foreground px-7 py-4 font-semibold shadow-glow hover:bg-brand-deep transition"
             >
-              {sent ? "Opening your email…" : "Send Quote Request"}
+              Send Quote Request
               <Send className="w-4 h-4" />
             </button>
             <p className="text-xs text-muted-foreground text-center">
@@ -739,6 +759,7 @@ function Contact() {
               </CopyableText>
             </p>
           </form>
+          )}
         </div>
       </div>
     </section>
