@@ -718,9 +718,9 @@ function Contact() {
             }}
             className="lg:col-span-3 rounded-xl bg-white border border-border p-7 sm:p-9 shadow-soft space-y-5"
           >
-            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-            <input type="hidden" name="subject" value="New quote request — BJ Printing" />
-            <input type="hidden" name="from_name" value="BJ Printing Website" />
+            <input type="hidden" name="access_key" value="31d52a53-ff56-479d-bb74-3d2fff20a468" />
+<input type="hidden" name="subject" value="New quote request — BJ Printing" />
+<input type="hidden" name="from_name" value="BJ Printing Website" />
             <div className="grid sm:grid-cols-2 gap-5">
               <Field name="name" label="Your name" required />
               <Field name="phone" label="Phone" type="tel" required />
