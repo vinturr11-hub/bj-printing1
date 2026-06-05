@@ -614,6 +614,7 @@ function Reviews() {
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   return (
     <section id="contact" className="py-20 md:py-28 bg-secondary">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
