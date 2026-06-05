@@ -869,7 +869,7 @@ function ContactCard({
   return (
     <a
       href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
+      target={href?.startsWith("http") || href?.startsWith("mailto:") ? "_blank" : undefined}
       rel="noreferrer"
       className="flex items-center gap-4 bg-white border border-border p-5 shadow-soft hover:border-ink transition group rounded-xl"
     >
